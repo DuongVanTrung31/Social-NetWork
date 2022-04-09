@@ -19,4 +19,7 @@ public class Comment {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<LikeComment> likeCommentList;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Comment> childrenCommentList;
 }
