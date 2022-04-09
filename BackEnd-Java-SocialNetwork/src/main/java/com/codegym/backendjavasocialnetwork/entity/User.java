@@ -23,4 +23,7 @@ public class User {
     private String fullName;
     private String avatarUrl;
     private String hobbies;
+
+    @ManyToOne
+    private Role role;
 }

@@ -1,6 +1,7 @@
 package com.codegym.backendjavasocialnetwork.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,9 +18,12 @@ public class Comment {
     @ManyToOne
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne
+    private Post post;
+
+    @OneToMany(mappedBy = "comment",cascade = CascadeType.ALL)
     private List<LikeComment> likeCommentList;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Comment> childrenCommentList;
+    private Long parentId;
 }

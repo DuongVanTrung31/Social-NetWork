@@ -24,9 +24,9 @@ public class Post {
     @ManyToOne
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<Comment> commentList;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<LikePost> likePostList;
 }
