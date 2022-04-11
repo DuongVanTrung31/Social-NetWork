@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -27,6 +27,29 @@ public class PostController {
         }
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
+
+    //Tao bai viet
+    @PostMapping("/{userId}")
+    public ResponseEntity<Post> savePost(@PathVariable("userId") Long userId, @RequestPart("post") Post post) {
+        post.setCreatedDate(LocalDateTime.now());
+        Post createPost = postService.save(post);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    //Sua
+    @PutMapping("{/id}")
+    public ResponseEntity<Post> updatePost(@PathVariable("id") Long id, @RequestPart("postUpdate") Post postUpdate) {
+        Optional<Post> post = postService.findById(id);
+        if (!post.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        postUpdate.setId(post.get().getId());
+        postUpdate.setUpdatedDate(post.get().getUpdatedDate());
+        postUpdate.setStatus(post.get().getStatus());
+        postUpdate = postService.save(postUpdate);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     //xoa bai viet
     @DeleteMapping("/{id}")
