@@ -28,7 +28,6 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    //Tao bai viet
     @PostMapping("/{userId}")
     public ResponseEntity<Post> savePost(@PathVariable("userId") Long userId, @RequestPart("post") Post post) {
         post.setCreatedDate(LocalDateTime.now());
@@ -36,8 +35,7 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    //Sua
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable("id") Long id, @RequestPart("postUpdate") Post postUpdate) {
         Optional<Post> post = postService.findById(id);
         if (!post.isPresent()) {
@@ -50,10 +48,8 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    //xoa bai viet
     @DeleteMapping("/{id}")
-    public ResponseEntity<Post> deletePost(@PathVariable Long id) {
+    public ResponseEntity<Post> deletePost(@PathVariable("id") Long id) {
         Optional<Post> post = postService.findById(id);
         if (!post.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
