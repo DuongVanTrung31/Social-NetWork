@@ -8,4 +8,5 @@ public interface UserService extends GenericService<User>, UserDetailsService {
     Optional<User> findByUsername(String username);
     Boolean existsByUsername(String username);
     Iterable<User> getAllUsers();
+    Boolean existsByEmail(String email);
 }

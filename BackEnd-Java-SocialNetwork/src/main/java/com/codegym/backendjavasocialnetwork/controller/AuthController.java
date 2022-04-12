@@ -43,10 +43,16 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm, Errors error) {
         if(userService.existsByUsername(signUpForm.getUsername())){
-            return new ResponseEntity<>(201,HttpStatus.CREATED);
+//            Mã 700 là tài khoản đã tồn tại
+            return new ResponseEntity<>(700,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (!signUpForm.getPassword().equals(signUpForm.getConfirmPassword())){
-            return new ResponseEntity<>(201,HttpStatus.CREATED);
+//            Mã 701 là sai xác nhận mật khẩu
+            return new ResponseEntity<>(701,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (!userService.existsByEmail(signUpForm.getEmail())){
+//            Mã 702 là email đã tồn tại
+            return new ResponseEntity<>(702, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         signUpForm.setRoleName("ROLE_USER");
         User user = new User(signUpForm.getUsername(),passwordEncoder.encode(signUpForm.getPassword()),
@@ -58,7 +64,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
 
-        if (!passwordEncoder.matches(loginForm.getPassword(), userService.findByUsername(loginForm.getUsername()).get().getPassword())){
+        if (!passwordEncoder.matches(loginForm.getPassword(),
+                userService.findByUsername(loginForm.getUsername()).get().getPassword())){
 //            Mã 600 là lỗi sai mật khẩu
             return new ResponseEntity<>(600, HttpStatus.BAD_REQUEST);
         }
