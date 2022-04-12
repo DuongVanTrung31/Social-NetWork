@@ -26,6 +26,7 @@ public class User {
     private String address;
     private String fullName;
     private String avatarUrl;
+    private String coverImgUrl;
     private String hobbies;
 
     public User(String username, String password, String email, String phone, LocalDate dateOfBirth, Role role) {

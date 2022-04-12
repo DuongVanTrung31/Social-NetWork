@@ -43,10 +43,10 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm, Errors error) {
         if(userService.existsByUsername(signUpForm.getUsername())){
-            return new ResponseEntity<>(201,HttpStatus.CREATED);
+            return new ResponseEntity<>(700,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (!signUpForm.getPassword().equals(signUpForm.getConfirmPassword())){
-            return new ResponseEntity<>(201,HttpStatus.CREATED);
+            return new ResponseEntity<>(701,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         signUpForm.setRoleName("ROLE_USER");
         User user = new User(signUpForm.getUsername(),passwordEncoder.encode(signUpForm.getPassword()),
