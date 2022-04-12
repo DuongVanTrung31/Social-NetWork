@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService  {
     public Iterable<User> getAllUsers() {
         return repository.findAll();
     }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
+    }
 }
