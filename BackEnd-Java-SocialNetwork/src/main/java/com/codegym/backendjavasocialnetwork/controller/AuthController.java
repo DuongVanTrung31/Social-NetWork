@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,7 +41,7 @@ public class AuthController {
     private JwtService jwtService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm) {
+    public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm, Errors error) {
         if(userService.existsByUsername(signUpForm.getUsername())){
             return new ResponseEntity<>(201,HttpStatus.CREATED);
         }
@@ -56,6 +57,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
+
+        if (!passwordEncoder.matches(loginForm.getPassword(), userService.findByUsername(loginForm.getUsername()).get().getPassword())){
+//            Mã 600 là lỗi sai mật khẩu
+            return new ResponseEntity<>(600, HttpStatus.BAD_REQUEST);
+        }
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -65,5 +71,4 @@ public class AuthController {
         JwtResponse jwtResponse = new JwtResponse(currentUser.getId(),jwt,userDetails.getUsername(),currentUser.getEmail(), userDetails.getAuthorities());
         return ResponseEntity.ok(jwtResponse);
     }
-
 }
