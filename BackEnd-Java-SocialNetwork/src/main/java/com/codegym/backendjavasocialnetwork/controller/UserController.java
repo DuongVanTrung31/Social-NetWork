@@ -2,7 +2,7 @@ package com.codegym.backendjavasocialnetwork.controller;
 
 import com.codegym.backendjavasocialnetwork.entity.User;
 import com.codegym.backendjavasocialnetwork.entity.dto.ChangePasswordForm;
-import com.codegym.backendjavasocialnetwork.entity.dto.UpdateInfoForm;
+import com.codegym.backendjavasocialnetwork.entity.dto.UserInfoForm;
 import com.codegym.backendjavasocialnetwork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class UserController {
     @PutMapping("changePassword/{id}")
     public ResponseEntity<?> changePassword(@PathVariable("id") Long id, @RequestBody ChangePasswordForm changePassword) {
         User user = new User();
-        if (userService.findById(id).isPresent()){
+        if (userService.findById(id).isPresent()) {
             user = userService.findById(id).get();
         }
         if (!passwordEncoder.matches(changePassword.getCurrentPassword(), user.getPassword())) {
@@ -38,8 +38,17 @@ public class UserController {
     }
 
     @PutMapping("/updateInfo/{id}")
-    public ResponseEntity<?> updateInfo(@PathVariable("id") Long id, @RequestBody UpdateInfoForm updateInfoForm){
+    public ResponseEntity<?> updateInfo(@PathVariable("id") Long id, @RequestBody UserInfoForm userInfoForm) {
         User user = userService.findById(id).get();
+        userService.updateUser(userInfoForm, user);
+        userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("userInfo/{id}")
+    public ResponseEntity<?> userInfo(@PathVariable("id") Long id) {
+        User user = userService.findById(id).get();
+        UserInfoForm userInfo = userService.getUserInfo(user);
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 }
