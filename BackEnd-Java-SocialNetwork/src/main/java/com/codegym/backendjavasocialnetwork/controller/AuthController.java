@@ -50,7 +50,7 @@ public class AuthController {
 //            Mã 701 là sai xác nhận mật khẩu
             return new ResponseEntity<>(701,HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if (!userService.existsByEmail(signUpForm.getEmail())){
+        if (userService.existsByEmail(signUpForm.getEmail())){
 //            Mã 702 là email đã tồn tại
             return new ResponseEntity<>(702, HttpStatus.INTERNAL_SERVER_ERROR);
         }

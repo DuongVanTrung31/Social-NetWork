@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService  {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository repository;
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService  {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username).get();
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return UserPrinciple.build(user);
