@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateInfoForm {
+public class UserInfoForm {
     private String fullName;
     private String address;
     private String hobbies;

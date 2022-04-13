@@ -1,6 +1,7 @@
 package com.codegym.backendjavasocialnetwork.service.impl;
 
 import com.codegym.backendjavasocialnetwork.entity.User;
+import com.codegym.backendjavasocialnetwork.entity.dto.UserInfoForm;
 import com.codegym.backendjavasocialnetwork.entity.dto.UserPrinciple;
 import com.codegym.backendjavasocialnetwork.repository.UserRepository;
 import com.codegym.backendjavasocialnetwork.service.UserService;
@@ -67,5 +68,22 @@ public class UserServiceImpl implements UserService  {
     @Override
     public Boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
+    }
+
+    @Override
+    public void updateUser(UserInfoForm userInfoForm, User user) {
+        user.setFullName(userInfoForm.getFullName());
+        user.setEmail(userInfoForm.getEmail());
+        user.setDateOfBirth(userInfoForm.getDateOfBirth());
+        user.setAddress(userInfoForm.getAddress());
+        user.setAvatarUrl(userInfoForm.getAvatarUrl());
+        user.setHobbies(userInfoForm.getHobbies());
+        user.setPhone(userInfoForm.getPhone());
+    }
+
+    @Override
+    public UserInfoForm getUserInfo(User user) {
+        return new UserInfoForm(user.getFullName(),user.getAddress(),user.getHobbies()
+                ,user.getAvatarUrl(),user.getEmail(),user.getPhone(),user.getDateOfBirth());
     }
 }
