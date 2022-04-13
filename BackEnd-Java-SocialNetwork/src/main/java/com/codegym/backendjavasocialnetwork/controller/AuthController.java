@@ -57,9 +57,7 @@ public class AuthController {
         signUpForm.setRoleName("ROLE_USER");
         User user = new User(signUpForm.getUsername(),passwordEncoder.encode(signUpForm.getPassword()),
                 signUpForm.getEmail(),signUpForm.getPhone(),signUpForm.getDateOfBirth(), roleRepository.findByName(signUpForm.getRoleName()));
-        user.setAvatarUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2F" +
-                "www.pinterest.dk%2Fpin%2F790874384539176379%2F%3Fsend%3Dtrue&psig=" +
-                "AOvVaw0dV6VyKZOkhCuQ8fO5cLgu&ust=1649930556876000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCLC75LjkkPcCFQAAAAAdAAAAABAP");
+        user.setAvatarUrl("https://trangtienich.com/wp-content/uploads/2019/12/anh-dai-dien-facebook-doc-11.jpg");
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
