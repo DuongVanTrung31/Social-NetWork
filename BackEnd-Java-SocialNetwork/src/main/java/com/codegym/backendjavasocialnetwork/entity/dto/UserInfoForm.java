@@ -14,6 +14,7 @@ public class UserInfoForm {
     private String address;
     private String hobbies;
     private String avatarUrl;
+    private String coverImgUrl;
     private String email;
     private String phone;
     private LocalDate dateOfBirth;
