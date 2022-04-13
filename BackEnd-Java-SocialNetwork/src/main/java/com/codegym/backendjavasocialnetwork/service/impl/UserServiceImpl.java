@@ -1,6 +1,7 @@
 package com.codegym.backendjavasocialnetwork.service.impl;
 
 import com.codegym.backendjavasocialnetwork.entity.User;
+import com.codegym.backendjavasocialnetwork.entity.dto.UserInfoForm;
 import com.codegym.backendjavasocialnetwork.entity.dto.UserPrinciple;
 import com.codegym.backendjavasocialnetwork.repository.UserRepository;
 import com.codegym.backendjavasocialnetwork.service.UserService;
@@ -30,8 +31,8 @@ public class UserServiceImpl implements UserService  {
     }
 
     @Override
-    public User save(User user) {
-        return repository.save(user);
+    public void save(User user) {
+        repository.save(user);
     }
 
     @Override
@@ -62,5 +63,27 @@ public class UserServiceImpl implements UserService  {
     @Override
     public Iterable<User> getAllUsers() {
         return repository.findAll();
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
+    }
+
+    @Override
+    public void updateUser(UserInfoForm userInfoForm, User user) {
+        user.setFullName(userInfoForm.getFullName());
+        user.setEmail(userInfoForm.getEmail());
+        user.setDateOfBirth(userInfoForm.getDateOfBirth());
+        user.setAddress(userInfoForm.getAddress());
+        user.setAvatarUrl(userInfoForm.getAvatarUrl());
+        user.setHobbies(userInfoForm.getHobbies());
+        user.setPhone(userInfoForm.getPhone());
+    }
+
+    @Override
+    public UserInfoForm getUserInfo(User user) {
+        return new UserInfoForm(user.getFullName(),user.getAddress(),user.getHobbies()
+                ,user.getAvatarUrl(),user.getEmail(),user.getPhone(),user.getDateOfBirth());
     }
 }
