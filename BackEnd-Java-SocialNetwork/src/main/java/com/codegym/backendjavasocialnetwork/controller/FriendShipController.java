@@ -62,13 +62,18 @@ public class FriendShipController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{userId}/{targetUserId}")
+    @PutMapping("/block/{userId}/{targetUserId}")
     public ResponseEntity<?> blockFriend(@PathVariable("userId") Long userId, @PathVariable("targetUserId") Long targetUserId){
         User user = userService.findById(userId).get();
         User targetUser = userService.findById(targetUserId).get();
         Optional<RelationalShip> optionalFriendship = friendShipService.findRelationshipByUser1AndUser2(user.getId(), targetUser.getId());
         if (optionalFriendship.isPresent()) {
             optionalFriendship.get().setStatusRelationalShip(BLOCKED);
+            friendShipService.save(optionalFriendship.get());
+        }
+        Optional<RelationalShip> optionalFriendship1 = friendShipService.findRelationshipByUser1AndUser2(targetUser.getId(), user.getId());
+        if (optionalFriendship1.isPresent()) {
+            optionalFriendship1.get().setStatusRelationalShip(BLOCKED);
             friendShipService.save(optionalFriendship.get());
         }
         return new ResponseEntity<>(HttpStatus.OK);
