@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/comment")
 public class CommentController {
     @Autowired
@@ -17,7 +18,6 @@ public class CommentController {
     @GetMapping("/{id}")
     public ResponseEntity<Iterable<Comment>> findAllByPost(@PathVariable("id") Long id) {
         Iterable<Comment> comments = commentService.findAllCommentInPostById(id);
-
         if(!comments.iterator().hasNext()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -25,24 +25,25 @@ public class CommentController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Comment> saveComment(@RequestBody Comment comment) {
+    @PostMapping("/{id}")
+    public ResponseEntity<Comment> saveComment(@PathVariable("id") Long id, @RequestBody Comment comment) {
         return new ResponseEntity<>(commentService.saveComment(comment), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Comment> editComment(@PathVariable("id") long id, @RequestBody Comment comment) {
+    public ResponseEntity<Comment> editComment(@PathVariable("id") Long id, @RequestBody Comment comment) {
         Optional<Comment> commentOptional = commentService.findById(id);
         if(!commentOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             comment.setId(commentOptional.get().getId());
+            comment = commentService.saveComment(comment);
             return new ResponseEntity<>(comment, HttpStatus.OK);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Comment> deleteComment(@PathVariable("id") long id, @RequestBody Comment comment) {
+    public ResponseEntity<Comment> deleteComment(@PathVariable("id") Long id) {
         Optional<Comment> comment1 = commentService.findById(id);
         if(!comment1.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
