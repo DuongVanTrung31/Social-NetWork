@@ -14,4 +14,6 @@ public interface PostService extends GenericService<Post> {
     Iterable<Post> findAllByUser_Id(Long userId);
 
     Iterable<Post> findAllByStatusOrderByIdDesc(Enum<Status> status);
+
+    Iterable<Post> findAllByStatusAndUser_IdOrderByIdDesc(String status, Long userId);
 }

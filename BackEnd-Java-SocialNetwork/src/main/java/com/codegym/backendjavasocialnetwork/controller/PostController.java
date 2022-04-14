@@ -1,8 +1,11 @@
 package com.codegym.backendjavasocialnetwork.controller;
 
 import com.codegym.backendjavasocialnetwork.entity.Post;
+import com.codegym.backendjavasocialnetwork.entity.RelationalShip;
 import com.codegym.backendjavasocialnetwork.entity.User;
 import com.codegym.backendjavasocialnetwork.entity.enums.Status;
+import com.codegym.backendjavasocialnetwork.entity.enums.StatusRelationalShip;
+import com.codegym.backendjavasocialnetwork.service.FriendShipService;
 import com.codegym.backendjavasocialnetwork.service.PostService;
 import com.codegym.backendjavasocialnetwork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,10 @@ import java.util.*;
 @CrossOrigin("*")
 @RequestMapping("api/post")
 public class PostController {
+
+    @Autowired
+    private FriendShipService friendShipService;
+
     @Autowired
     private PostService postService;
     @Autowired
@@ -75,6 +82,7 @@ public class PostController {
 
     @GetMapping("/status")
     public ResponseEntity<Iterable<Post>> getListPostByStatus() {
+
         Iterable<Post> postList = postService.findAllByStatusOrderByIdDesc(Status.PUBLIC);
         return new ResponseEntity<>(postList, HttpStatus.OK);
     }
@@ -85,4 +93,33 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
+    @GetMapping("test/{id}")
+    public ResponseEntity<?> getNewFeed(@PathVariable("id") Long id){
+        List<Post> privatePosts = (List<Post>) postService.findAllByStatusAndUser_IdOrderByIdDesc("PRIVATE", id);
+        List<Post> postList = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.PUBLIC);
+        if (privatePosts != null){
+            postList.addAll(privatePosts);
+        }
+        User user = userService.findById(id).get();
+        List<Post> posts = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.FRIENDS);
+        for (Post p : posts){
+            Optional<RelationalShip> OptionalRelationalShip = friendShipService.findAllByUser1_IdAndUser2_Id(user.getId(), p.getUser().getId());
+            RelationalShip relationalShip = new RelationalShip();
+            if (OptionalRelationalShip.isPresent()){
+                 relationalShip = OptionalRelationalShip.get();
+            } else{
+                Optional<RelationalShip> OptionalRelationalShip1 = friendShipService.findAllByUser1_IdAndUser2_Id(p.getUser().getId(), user.getId());
+                if (OptionalRelationalShip1.isPresent()){
+                    relationalShip = OptionalRelationalShip1.get();
+                }
+            }
+            if(relationalShip.getId() != null){
+                if(relationalShip.getStatusRelationalShip().equals(StatusRelationalShip.FRIENDS)){
+                    postList.add(p);
+                    return new ResponseEntity<>(postList, HttpStatus.OK);
+                }
+            }
+        }
+        return new ResponseEntity<>(postList, HttpStatus.OK);
+    }
 }

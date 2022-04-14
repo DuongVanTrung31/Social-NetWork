@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfoForm {
+    private Long id;
     private String fullName;
     private String address;
     private String hobbies;

@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoForm getUserInfo(User user) {
-        return new UserInfoForm(user.getFullName(),user.getAddress(),user.getHobbies()
+        return new UserInfoForm(user.getId(),user.getFullName(),user.getAddress(),user.getHobbies()
                 ,user.getAvatarUrl(), user.getCoverImgUrl(), user.getEmail(),user.getPhone(),user.getDateOfBirth());
     }
 }
