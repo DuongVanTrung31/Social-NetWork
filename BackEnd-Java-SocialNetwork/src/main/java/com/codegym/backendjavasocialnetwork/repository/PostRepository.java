@@ -19,7 +19,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query(value = "select * from post where status = :status and user_id = :userId", nativeQuery = true)
     Iterable<Post> findAllByStatusAndUser_IdOrderByIdDesc(String status, Long userId);
 
-    Iterable<Post> findAllByUser_Id(Long userId);
+    Iterable<Post> findAllByUser_IdOrderByIdDesc(Long userId);
 
 
     @Query("select p from Post p where p.status = 'PUBLIC' ")
