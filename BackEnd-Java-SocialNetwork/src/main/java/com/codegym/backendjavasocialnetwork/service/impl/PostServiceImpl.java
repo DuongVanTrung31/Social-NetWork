@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
+
     @Autowired
     private PostRepository postRepository;
 
@@ -41,14 +42,15 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByContentContaining(content);
     }
 
+
     @Override
-    public Iterable<Post> findAllByStatus(String status) {
-        return postRepository.findAllByStatus(status);
+    public List<Post> getListPostByStatus() {
+        return postRepository.getListPostByStatus();
     }
 
     @Override
-    public List<Post> getListPostByStatus(PostStatusRequest request) {
-        return postRepository.getListPostByStatus(request.getStatusInput());
+    public Iterable<Post> findAllByUser_Id(Long userId) {
+        return postRepository.findAllByUser_Id(userId);
     }
 
 

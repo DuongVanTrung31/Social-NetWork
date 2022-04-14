@@ -3,6 +3,7 @@ package com.codegym.backendjavasocialnetwork.controller;
 import com.codegym.backendjavasocialnetwork.entity.Post;
 import com.codegym.backendjavasocialnetwork.entity.User;
 import com.codegym.backendjavasocialnetwork.entity.dto.PostStatusRequest;
+import com.codegym.backendjavasocialnetwork.entity.enums.Status;
 import com.codegym.backendjavasocialnetwork.service.PostService;
 import com.codegym.backendjavasocialnetwork.service.UserService;
 import com.codegym.backendjavasocialnetwork.service.impl.PostServiceImpl;
@@ -13,8 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @CrossOrigin("*")
@@ -75,9 +75,16 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/get-post-by-status")
-    public ResponseEntity<List<Post>> getListPostByStatus(@RequestBody PostStatusRequest request) {
-        List<Post> postList = postService.getListPostByStatus(request);
+    @GetMapping("/status")
+    public ResponseEntity<List<Post>> getListPostByStatus() {
+        List<Post> postList = postService.getListPostByStatus();
         return new ResponseEntity<>(postList, HttpStatus.OK);
     }
+
+    @GetMapping("/{uid}")
+    public ResponseEntity<Iterable<Post>> getAllByUser(@PathVariable("uid") Long id) {
+        Iterable<Post> posts = postService.findAllByUser_Id(id);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
 }
