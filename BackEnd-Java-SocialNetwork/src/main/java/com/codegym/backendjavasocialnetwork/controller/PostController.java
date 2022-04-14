@@ -93,7 +93,7 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @GetMapping("newFeeds/{uid}")
+    @GetMapping("/newFeeds/{uid}")
     public ResponseEntity<?> getNewFeed(@PathVariable("uid") Long uid){
         List<Post> privatePosts = (List<Post>) postService.findAllByStatusAndUser_IdOrderByIdDesc("PRIVATE", uid);
         List<Post> postList = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.PUBLIC);
