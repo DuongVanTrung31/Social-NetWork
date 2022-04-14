@@ -57,6 +57,7 @@ public class AuthController {
         signUpForm.setRoleName("ROLE_USER");
         User user = new User(signUpForm.getUsername(),passwordEncoder.encode(signUpForm.getPassword()),
                 signUpForm.getEmail(),signUpForm.getPhone(),signUpForm.getDateOfBirth(), roleRepository.findByName(signUpForm.getRoleName()));
+        user.setAvatarUrl("https://trangtienich.com/wp-content/uploads/2019/12/anh-dai-dien-facebook-doc-11.jpg");
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
