@@ -37,4 +37,9 @@ public class LikePostServiceImpl implements LikePostService {
     public Optional<LikePost> findByPostIdAndUserId(Long postId, Long userId) {
         return likePostRepository.findByPostIdAndUserId(postId, userId);
     }
+
+    @Override
+    public Long countLikeByPostId(Long postId) {
+        return likePostRepository.countLikeByPostId(postId);
+    }
 }
