@@ -2,11 +2,9 @@ package com.codegym.backendjavasocialnetwork.controller;
 
 import com.codegym.backendjavasocialnetwork.entity.Post;
 import com.codegym.backendjavasocialnetwork.entity.User;
-import com.codegym.backendjavasocialnetwork.entity.dto.PostStatusRequest;
 import com.codegym.backendjavasocialnetwork.entity.enums.Status;
 import com.codegym.backendjavasocialnetwork.service.PostService;
 import com.codegym.backendjavasocialnetwork.service.UserService;
-import com.codegym.backendjavasocialnetwork.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,8 +74,8 @@ public class PostController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<List<Post>> getListPostByStatus() {
-        List<Post> postList = postService.getListPostByStatus();
+    public ResponseEntity<Iterable<Post>> getListPostByStatus() {
+        Iterable<Post> postList = postService.findAllByStatusOrderByIdDesc(Status.PUBLIC);
         return new ResponseEntity<>(postList, HttpStatus.OK);
     }
 
