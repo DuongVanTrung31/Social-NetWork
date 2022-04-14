@@ -3,6 +3,7 @@ package com.codegym.backendjavasocialnetwork.service.impl;
 import com.codegym.backendjavasocialnetwork.entity.Post;
 import com.codegym.backendjavasocialnetwork.entity.dto.PostResponseDTO;
 import com.codegym.backendjavasocialnetwork.entity.dto.PostStatusRequest;
+import com.codegym.backendjavasocialnetwork.entity.enums.Status;
 import com.codegym.backendjavasocialnetwork.repository.PostRepository;
 import com.codegym.backendjavasocialnetwork.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
+
     @Autowired
     private PostRepository postRepository;
 
@@ -41,14 +43,20 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByContentContaining(content);
     }
 
+
     @Override
-    public Iterable<Post> findAllByStatus(String status) {
-        return postRepository.findAllByStatus(status);
+    public List<Post> getListPostByStatus() {
+        return postRepository.getListPostByStatus();
     }
 
     @Override
-    public List<Post> getListPostByStatus(PostStatusRequest request) {
-        return postRepository.getListPostByStatus(request.getStatusInput());
+    public Iterable<Post> findAllByUser_Id(Long userId) {
+        return postRepository.findAllByUser_Id(userId);
+    }
+
+    @Override
+    public Iterable<Post> findAllByStatusOrderByIdDesc(Enum<Status> status) {
+        return postRepository.findAllByStatusOrderByIdDesc(status);
     }
 
 
