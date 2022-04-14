@@ -14,12 +14,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p where p.content like %?1%")
     Iterable<Post> findAllByContentContaining(String content);
 
-    //    @Query("select p from Post p left join p.user u where u =?1")
-//    @Query("select p from Post p where u =?1")
-    Iterable<Post> findAllByUser(Long userId);
 
-    Iterable<Post> findAllByStatus(String status);
+    Iterable<Post> findAllByUser_Id(Long userId);
 
-    @Query("select p from Post p where p.status in :statusList")
-    List<Post> getListPostByStatus(@Param("statusList") List<Status> statusInput);
+
+    @Query("select p from Post p where p.status = 'PUBLIC' ")
+    List<Post> getListPostByStatus();
 }
