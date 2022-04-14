@@ -64,5 +64,10 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByStatusAndUser_IdOrderByIdDesc(status, userId);
     }
 
+    @Override
+    public List<Post> getList(Long id) {
+        return postRepository.getList(id);
+    }
+
 
 }

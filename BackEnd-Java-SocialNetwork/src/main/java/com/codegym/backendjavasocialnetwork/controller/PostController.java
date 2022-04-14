@@ -95,31 +95,31 @@ public class PostController {
 
     @GetMapping("/newFeeds/{uid}")
     public ResponseEntity<?> getNewFeed(@PathVariable("uid") Long uid){
-        List<Post> privatePosts = (List<Post>) postService.findAllByStatusAndUser_IdOrderByIdDesc("PRIVATE", uid);
-        List<Post> postList = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.PUBLIC);
-        if (privatePosts != null){
-            postList.addAll(privatePosts);
-        }
-        User user = userService.findById(uid).get();
-        List<Post> posts = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.FRIENDS);
-        for (Post p : posts){
-            Optional<RelationalShip> OptionalRelationalShip = friendShipService.findAllByUser1_IdAndUser2_Id(user.getId(), p.getUser().getId());
-            RelationalShip relationalShip = new RelationalShip();
-            if (OptionalRelationalShip.isPresent()){
-                 relationalShip = OptionalRelationalShip.get();
-            } else{
-                Optional<RelationalShip> OptionalRelationalShip1 = friendShipService.findAllByUser1_IdAndUser2_Id(p.getUser().getId(), user.getId());
-                if (OptionalRelationalShip1.isPresent()){
-                    relationalShip = OptionalRelationalShip1.get();
-                }
-            }
-            if(relationalShip.getId() != null){
-                if(relationalShip.getStatusRelationalShip().equals(StatusRelationalShip.FRIENDS)){
-                    postList.add(p);
-                    return new ResponseEntity<>(postList, HttpStatus.OK);
-                }
-            }
-        }
-        return new ResponseEntity<>(postList, HttpStatus.OK);
+//        List<Post> privatePosts = (List<Post>) postService.findAllByStatusAndUser_IdOrderByIdDesc("PRIVATE", uid);
+//        List<Post> postList = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.PUBLIC);
+//        if (privatePosts != null){
+//            postList.addAll(privatePosts);
+//        }
+//        User user = userService.findById(uid).get();
+//        List<Post> posts = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.FRIENDS);
+//        for (Post p : posts){
+//            Optional<RelationalShip> OptionalRelationalShip = friendShipService.findAllByUser1_IdAndUser2_Id(user.getId(), p.getUser().getId());
+//            RelationalShip relationalShip = new RelationalShip();
+//            if (OptionalRelationalShip.isPresent()){
+//                 relationalShip = OptionalRelationalShip.get();
+//            } else{
+//                Optional<RelationalShip> OptionalRelationalShip1 = friendShipService.findAllByUser1_IdAndUser2_Id(p.getUser().getId(), user.getId());
+//                if (OptionalRelationalShip1.isPresent()){
+//                    relationalShip = OptionalRelationalShip1.get();
+//                }
+//            }
+//            if(relationalShip.getId() != null){
+//                if(relationalShip.getStatusRelationalShip().equals(StatusRelationalShip.FRIENDS)){
+//                    postList.add(p);
+//                    return new ResponseEntity<>(postList, HttpStatus.OK);
+//                }
+//            }
+//        }
+        return new ResponseEntity<>(postService.getList(uid), HttpStatus.OK);
     }
 }
