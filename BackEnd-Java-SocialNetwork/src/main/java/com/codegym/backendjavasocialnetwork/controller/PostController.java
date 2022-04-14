@@ -5,7 +5,6 @@ import com.codegym.backendjavasocialnetwork.entity.User;
 import com.codegym.backendjavasocialnetwork.entity.dto.PostStatusRequest;
 import com.codegym.backendjavasocialnetwork.service.PostService;
 import com.codegym.backendjavasocialnetwork.service.UserService;
-import com.codegym.backendjavasocialnetwork.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
