@@ -15,18 +15,13 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Override
-    public List findAll() {
-        return commentRepository.findAll();
-    }
-
-    @Override
     public Optional<Comment> findById(Long id) {
         return commentRepository.findById(id);
     }
 
     @Override
     public Comment saveComment(Comment comment) {
-        return (Comment) commentRepository.save(comment);
+        return commentRepository.save(comment);
     }
 
     @Override

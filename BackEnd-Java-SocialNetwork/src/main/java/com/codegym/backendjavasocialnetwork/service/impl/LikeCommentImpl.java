@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class LikeCommentImpl implements LikeCommentService {
     @Autowired
@@ -34,16 +35,11 @@ public class LikeCommentImpl implements LikeCommentService {
 
     @Override
     public Optional<LikeComment> findByCommentIdAndUserId(Long comment_Id, Long user_Id) {
-        return likeCommentRepository.findByCommentIdAndUserId(comment_Id, user_Id);
+        return likeCommentRepository.findByComment_IdAndUser_Id(comment_Id, user_Id);
     }
 
     @Override
-    public Long countLikeCommentByCommentId(Long id) {
-        return likeCommentRepository.countLikeCommentByCommentId(id);
-    }
-
-    @Override
-    public void deleteAllByCommentId(Long id) {
-        likeCommentRepository.deleteAllByCommentId(id);
+    public Long countLikeCommentByComment_Id(Long post_id) {
+        return countLikeCommentByComment_Id(post_id);
     }
 }

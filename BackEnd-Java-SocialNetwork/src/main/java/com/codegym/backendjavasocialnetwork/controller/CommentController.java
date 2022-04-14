@@ -1,6 +1,7 @@
 package com.codegym.backendjavasocialnetwork.controller;
 import com.codegym.backendjavasocialnetwork.entity.Comment;
 import com.codegym.backendjavasocialnetwork.service.CommentService;
+import com.codegym.backendjavasocialnetwork.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private PostService postService;
+
     @GetMapping("/{id}")
     public ResponseEntity<Iterable<Comment>> findAllByPost(@PathVariable("id") Long id) {
         Iterable<Comment> comments = commentService.findAllCommentInPostById(id);
@@ -25,8 +29,9 @@ public class CommentController {
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Comment> saveComment(@PathVariable("id") Long id, @RequestBody Comment comment) {
+    @PostMapping("/{pid}")
+    public ResponseEntity<Comment> saveComment(@PathVariable("pid") Long id, @RequestBody Comment comment) {
+        comment.setPost(postService.findById(id).get());
         return new ResponseEntity<>(commentService.saveComment(comment), HttpStatus.CREATED);
     }
 

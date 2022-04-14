@@ -5,7 +5,6 @@ import com.codegym.backendjavasocialnetwork.entity.Comment;
 import java.util.Optional;
 
 public interface CommentService {
-    Iterable<Comment> findAll();
 
     Optional<Comment> findById(Long id);
 
