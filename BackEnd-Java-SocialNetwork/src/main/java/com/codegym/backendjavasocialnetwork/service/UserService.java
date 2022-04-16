@@ -12,4 +12,5 @@ public interface UserService extends GenericService<User>, UserDetailsService {
     Boolean existsByEmail(String email);
     void updateUser(UserInfoForm userInfoForm, User user);
     UserInfoForm getUserInfo(User user);
+    Iterable<User> getMutualFriendsList(Long uid, Long id);
 }
