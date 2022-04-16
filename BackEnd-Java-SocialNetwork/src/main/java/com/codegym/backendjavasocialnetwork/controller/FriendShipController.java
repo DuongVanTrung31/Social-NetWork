@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 import static com.codegym.backendjavasocialnetwork.entity.enums.StatusRelationalShip.*;
 
@@ -77,5 +79,13 @@ public class FriendShipController {
             friendShipService.save(optionalFriendship.get());
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/MutualFriends/{uid}/{id}")
+    public ResponseEntity<?> getMutualFriends(@PathVariable("uid") Long uid, @PathVariable("id") Long id){
+        if (userService.getMutualFriendsList(uid, id) != null){
+            return new ResponseEntity<>(userService.getMutualFriendsList(uid, id), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

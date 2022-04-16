@@ -86,4 +86,9 @@ public class UserServiceImpl implements UserService {
         return new UserInfoForm(user.getId(),user.getFullName(),user.getAddress(),user.getHobbies()
                 ,user.getAvatarUrl(), user.getCoverImgUrl(), user.getEmail(),user.getPhone(),user.getDateOfBirth());
     }
+
+    @Override
+    public Iterable<User> getMutualFriendsList(Long uid, Long id) {
+        return repository.getMutualFriendsList(uid, id);
+    }
 }
