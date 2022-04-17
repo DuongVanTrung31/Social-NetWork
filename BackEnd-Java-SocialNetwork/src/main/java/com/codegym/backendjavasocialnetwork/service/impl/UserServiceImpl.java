@@ -91,4 +91,9 @@ public class UserServiceImpl implements UserService {
     public Iterable<User> getMutualFriendsList(Long uid, Long id) {
         return repository.getMutualFriendsList(uid, id);
     }
+
+    @Override
+    public Iterable<User> getListRequestToMe(Long uid) {
+        return repository.getListRequestToMe(uid);
+    }
 }

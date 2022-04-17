@@ -20,4 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "WHERE F.target_user = :id AND F.status_relational_ship = 'FRIENDS' UNION SELECT F.target_user Person FROM relational_ship F " +
             "WHERE F.user_1 = :id AND F.status_relational_ship = 'FRIENDS') F2 ON F2.Person = F1.Person)", nativeQuery = true)
     Iterable<User> getMutualFriendsList(Long uid, Long id);
+
+    @Query(value = "select * from users where id in (select user_1 from relational_ship where target_user = :uid and status_relational_ship = 'PENDING')", nativeQuery = true)
+    Iterable<User> getListRequestToMe(Long uid);
 }

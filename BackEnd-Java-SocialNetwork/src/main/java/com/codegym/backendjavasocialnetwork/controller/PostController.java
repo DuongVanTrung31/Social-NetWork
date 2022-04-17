@@ -1,10 +1,8 @@
 package com.codegym.backendjavasocialnetwork.controller;
 
 import com.codegym.backendjavasocialnetwork.entity.Post;
-import com.codegym.backendjavasocialnetwork.entity.RelationalShip;
 import com.codegym.backendjavasocialnetwork.entity.User;
 import com.codegym.backendjavasocialnetwork.entity.enums.Status;
-import com.codegym.backendjavasocialnetwork.entity.enums.StatusRelationalShip;
 import com.codegym.backendjavasocialnetwork.service.FriendShipService;
 import com.codegym.backendjavasocialnetwork.service.PostService;
 import com.codegym.backendjavasocialnetwork.service.UserService;
@@ -21,9 +19,6 @@ import java.util.*;
 @CrossOrigin("*")
 @RequestMapping("api/post")
 public class PostController {
-
-    @Autowired
-    private FriendShipService friendShipService;
 
     @Autowired
     private PostService postService;

@@ -13,4 +13,5 @@ public interface UserService extends GenericService<User>, UserDetailsService {
     void updateUser(UserInfoForm userInfoForm, User user);
     UserInfoForm getUserInfo(User user);
     Iterable<User> getMutualFriendsList(Long uid, Long id);
+    Iterable<User> getListRequestToMe(Long uid);
 }

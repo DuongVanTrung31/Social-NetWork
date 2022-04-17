@@ -50,10 +50,19 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("userInfo/{id}")
+    @GetMapping("/userInfo/{id}")
     public ResponseEntity<?> userInfo(@PathVariable("id") Long id) {
         User user = userService.findById(id).get();
         UserInfoForm userInfo = userService.getUserInfo(user);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
+    }
+
+    @GetMapping("/requestToMe/{uid}")
+    public ResponseEntity<?> getListRequestToMe(@PathVariable("uid") Long uid){
+        Iterable<User> list = userService.getListRequestToMe(uid);
+        if (!list.iterator().hasNext()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
