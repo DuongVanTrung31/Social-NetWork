@@ -23,4 +23,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select * from users where id in (select user_1 from relational_ship where target_user = :uid and status_relational_ship = 'PENDING')", nativeQuery = true)
     Iterable<User> getListRequestToMe(Long uid);
+
+    @Query(value = "select * from users where id in (select target_user from relational_ship where user_1 = :uid and status_relational_ship = 'PENDING')", nativeQuery = true)
+    Iterable<User> getListRequestFromMe(Long uid);
+
+    @Query(value = "select * from users where id in (select target_user from relational_ship where user_1 = :uid and status_relational_ship = 'FRIENDS' union" +
+            " all select user_1 from relational_ship where target_user = :uid and status_relational_ship = 'FRIENDS')", nativeQuery = true)
+    Iterable<User> getListMyFriends(Long uid);
 }

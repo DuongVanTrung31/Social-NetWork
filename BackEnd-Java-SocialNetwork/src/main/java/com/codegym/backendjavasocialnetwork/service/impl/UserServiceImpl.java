@@ -96,4 +96,14 @@ public class UserServiceImpl implements UserService {
     public Iterable<User> getListRequestToMe(Long uid) {
         return repository.getListRequestToMe(uid);
     }
+
+    @Override
+    public Iterable<User> getListRequestFromMe(Long uid) {
+        return repository.getListRequestFromMe(uid);
+    }
+
+    @Override
+    public Iterable<User> getListMyFriends(Long uid) {
+        return repository.getListMyFriends(uid);
+    }
 }

@@ -65,4 +65,22 @@ public class UserController {
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @GetMapping("/requestFromMe/{uid}")
+    public ResponseEntity<?> getListRequestFromMe(@PathVariable("uid") Long uid){
+        Iterable<User> list = userService.getListRequestFromMe(uid);
+        if (!list.iterator().hasNext()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/listMyFriends/{uid}")
+    public ResponseEntity<?> getListMyFriends(@PathVariable("uid") Long uid){
+        Iterable<User> list = userService.getListMyFriends(uid);
+        if (!list.iterator().hasNext()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 }
