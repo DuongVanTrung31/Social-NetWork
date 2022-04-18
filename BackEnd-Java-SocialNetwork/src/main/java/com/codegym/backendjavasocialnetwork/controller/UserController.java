@@ -1,5 +1,6 @@
 package com.codegym.backendjavasocialnetwork.controller;
 
+import com.codegym.backendjavasocialnetwork.entity.Post;
 import com.codegym.backendjavasocialnetwork.entity.User;
 import com.codegym.backendjavasocialnetwork.entity.dto.ChangePasswordForm;
 import com.codegym.backendjavasocialnetwork.entity.dto.UserInfoForm;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.ResultSet;
 
 @RestController
 @RequestMapping("api/")
@@ -51,5 +54,14 @@ public class UserController {
         User user = userService.findById(id).get();
         UserInfoForm userInfo = userService.getUserInfo(user);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchUser")
+    public ResponseEntity<Iterable<User>> searchUser(@RequestBody User user) {
+        Iterable<User> users = userService.findAllByUserNameContaining(user.getFullName());
+        if (!users.iterator().hasNext()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

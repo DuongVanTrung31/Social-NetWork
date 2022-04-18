@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query("select p from Post p where p.content like %?1%")
     Iterable<Post> findAllByContentContaining(String content);
 
     Iterable<Post> findAllByStatusOrderByIdDesc(Enum<Status> status);

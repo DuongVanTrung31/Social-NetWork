@@ -39,7 +39,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Iterable<Post> findAllByContent(String content) {
+    public Iterable<Post> findAllByContentContaining(String content) {
         return postRepository.findAllByContentContaining(content);
     }
 
