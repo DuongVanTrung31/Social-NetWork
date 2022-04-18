@@ -59,10 +59,7 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Post> deletePost(@PathVariable("id") Long id) {
-        Optional<Post> post = postService.findById(id);
-        if (!post.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        postService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
