@@ -39,7 +39,7 @@ public class LikeCommentImpl implements LikeCommentService {
     }
 
     @Override
-    public Long countLikeCommentByComment_Id(Long post_id) {
-        return countLikeCommentByComment_Id(post_id);
+    public Integer countLikeCommentByComment_Id(Long comment_id) {
+        return likeCommentRepository.countLikeCommentByComment_Id(comment_id);
     }
 }

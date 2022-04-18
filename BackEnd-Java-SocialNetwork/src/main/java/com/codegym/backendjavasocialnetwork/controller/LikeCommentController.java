@@ -42,9 +42,11 @@ public class LikeCommentController {
         }
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<LikeComment> countLikeCommentByCommentId(@PathVariable("id") long id) {
-//        Long countLikeCommentByCommentId = likeCommentService.countLikeCommentByComment_Id(id);
-//        return new ResponseEntity<>(countLikeCommentByCommentId, HttpStatus.OK);
-//    }
+    @GetMapping("/{comment_id}")
+    public ResponseEntity<Integer> countLikeCommentByCommentId(@PathVariable("comment_id") long comment_id) {
+        Integer countLikeCommentByCommentId = likeCommentService.countLikeCommentByComment_Id(comment_id);
+        return new ResponseEntity<>(countLikeCommentByCommentId, HttpStatus.OK);
+    }
+
+
 }
