@@ -16,7 +16,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("api/like-comment")
-public class LikeCommentController {
+public class    LikeCommentController {
     @Autowired
     private LikeCommentService likeCommentService;
 
