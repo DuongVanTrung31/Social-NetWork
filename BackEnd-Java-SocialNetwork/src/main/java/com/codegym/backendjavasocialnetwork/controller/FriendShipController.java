@@ -76,7 +76,7 @@ public class FriendShipController {
         Optional<RelationalShip> optionalFriendship1 = friendShipService.findRelationshipByUser1AndUser2(targetUser.getId(), user.getId());
         if (optionalFriendship1.isPresent()) {
             optionalFriendship1.get().setStatusRelationalShip(BLOCKED);
-            friendShipService.save(optionalFriendship.get());
+            friendShipService.save(optionalFriendship1.get());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
