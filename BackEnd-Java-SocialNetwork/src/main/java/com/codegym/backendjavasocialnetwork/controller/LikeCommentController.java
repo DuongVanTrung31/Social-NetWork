@@ -26,9 +26,9 @@ public class    LikeCommentController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/{comment_id}/{user_id}")
-    public ResponseEntity<LikeComment> checkLike(@PathVariable("comment_id") long comment_id,
-                                                 @PathVariable("user_id") long user_id) {
+    @GetMapping("/{comment_id}/{user_id}")
+    public ResponseEntity<LikeComment> checkLike(@PathVariable("comment_id") Long comment_id,
+                                                 @PathVariable("user_id") Long user_id) {
         Optional<LikeComment> likeCommentOptional = likeCommentService.findByCommentIdAndUserId(comment_id, user_id);
         if(!likeCommentOptional.isPresent()) {
             User user = userService.findById(user_id).get();

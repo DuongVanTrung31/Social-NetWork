@@ -27,7 +27,7 @@ public class LikePostController {
     @Autowired
     private LikePostService likePostService;
 
-    @PostMapping("/{postId}/{userId}")
+    @GetMapping("/{postId}/{userId}")
     public ResponseEntity<LikePost> checkLikePost(@PathVariable Long postId, @PathVariable Long userId) {
         Optional<LikePost> likePostOptional = likePostService.findByPostIdAndUserId(postId, userId);
         if (!likePostOptional.isPresent()) {
