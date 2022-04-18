@@ -12,10 +12,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry){
         registry.enableSimpleBroker("/topic");
-        registry.setApplicationDestinationPrefixes("/gkz");
+        registry.setApplicationDestinationPrefixes("/cg");
     }
     @Override
     public  void registerStompEndpoints(StompEndpointRegistry registry){
-        registry.addEndpoint("/gkz-stomp-endpoint").setAllowedOrigins("http://localhost:4200").withSockJS();
+        registry.addEndpoint("/thezoo").setAllowedOrigins("*").withSockJS();
     }
 }

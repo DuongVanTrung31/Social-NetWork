@@ -76,7 +76,6 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userInfoForm.getEmail());
         user.setDateOfBirth(userInfoForm.getDateOfBirth());
         user.setAddress(userInfoForm.getAddress());
-        user.setAvatarUrl(userInfoForm.getAvatarUrl());
         user.setHobbies(userInfoForm.getHobbies());
         user.setPhone(userInfoForm.getPhone());
     }
