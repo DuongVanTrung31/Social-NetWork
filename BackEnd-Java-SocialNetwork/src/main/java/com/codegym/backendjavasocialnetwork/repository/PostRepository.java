@@ -25,10 +25,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> getListPostByStatus();
 
     @Query(value = "select bang2.* from relational_ship as bang1 left join post as bang2 on bang1.target_user = bang2.user_id " +
-            "where bang1.user_1 = 6 and bang2.status = 'FRIENDS' and bang1.status_relational_ship = 'FRIENDS' union all" +
+            "where bang1.user_1 = :id and bang2.status = 'FRIENDS' and bang1.status_relational_ship = 'FRIENDS' union all" +
             " select * from post where status = 'PUBLIC' union all select * from post where (status = 'PRIVATE' or status = 'FRIENDS')" +
-            " and user_id = 6 union all select bang2.* from relational_ship as bang1 left join post as bang2 on bang1.user_1 = bang2.user_id " +
-            "where bang1.target_user = 6 and bang2.status = 'FRIENDS' and bang1.status_relational_ship = 'FRIENDS' order by id desc", nativeQuery = true)
+            " and user_id = :id union all select bang2.* from relational_ship as bang1 left join post as bang2 on bang1.user_1 = bang2.user_id " +
+            "where bang1.target_user = :id and bang2.status = 'FRIENDS' and bang1.status_relational_ship = 'FRIENDS' order by id desc", nativeQuery = true)
     List<Post> getList(Long id);
 
 
