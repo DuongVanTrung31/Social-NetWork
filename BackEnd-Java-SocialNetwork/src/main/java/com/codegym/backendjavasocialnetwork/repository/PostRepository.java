@@ -21,7 +21,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Iterable<Post> findAllByUser_IdOrderByIdDesc(Long userId);
 
-
     @Query("select p from Post p where p.status = 'PUBLIC' ")
     List<Post> getListPostByStatus();
 
@@ -30,4 +29,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             " select * from post where status = 'PUBLIC' union all select * from post " +
             "where (status = 'PRIVATE' or status = 'FRIENDS') and user_id = :id order by id desc", nativeQuery = true)
     List<Post> getList(Long id);
+
+
 }
