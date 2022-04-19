@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 import static com.codegym.backendjavasocialnetwork.entity.enums.StatusRelationalShip.*;
 
 @RestController
@@ -54,7 +55,7 @@ public class FriendShipController {
     }
 
     @DeleteMapping("/{userId}/{targetUserId}")
-    public ResponseEntity<?> unFriend(@PathVariable("userId") Long userId, @PathVariable("targetUserId") Long targetUserId){
+    public ResponseEntity<?> unFriend(@PathVariable("userId") Long userId, @PathVariable("targetUserId") Long targetUserId) {
         User user = userService.findById(userId).get();
         User targetUser = userService.findById(targetUserId).get();
         Optional<RelationalShip> optionalFriendship = friendShipService.findRelationshipByUser1AndUser2(user.getId(), targetUser.getId());
@@ -65,7 +66,7 @@ public class FriendShipController {
     }
 
     @PutMapping("/block/{userId}/{targetUserId}")
-    public ResponseEntity<?> blockFriend(@PathVariable("userId") Long userId, @PathVariable("targetUserId") Long targetUserId){
+    public ResponseEntity<?> blockFriend(@PathVariable("userId") Long userId, @PathVariable("targetUserId") Long targetUserId) {
         User user = userService.findById(userId).get();
         User targetUser = userService.findById(targetUserId).get();
         Optional<RelationalShip> optionalFriendship = friendShipService.findRelationshipByUser1AndUser2(user.getId(), targetUser.getId());
@@ -82,10 +83,28 @@ public class FriendShipController {
     }
 
     @GetMapping("/MutualFriends/{uid}/{id}")
-    public ResponseEntity<?> getMutualFriends(@PathVariable("uid") Long uid, @PathVariable("id") Long id){
-        if (userService.getMutualFriendsList(uid, id) != null){
+    public ResponseEntity<?> getMutualFriends(@PathVariable("uid") Long uid, @PathVariable("id") Long id) {
+        if (userService.getMutualFriendsList(uid, id) != null) {
             return new ResponseEntity<>(userService.getMutualFriendsList(uid, id), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("checkRelationship/{uid}/{id}")
+    public ResponseEntity<?> checkRelationship(@PathVariable("uid") Long uid, @PathVariable("id") Long id) {
+        Optional<RelationalShip> relationalShip = friendShipService.findRelationshipByUser1AndUser2(uid, id);
+        Optional<RelationalShip> relationalShip1 = friendShipService.findRelationshipByUser1AndUser2(id, uid);
+        RelationalShip relational = null;
+        if (relationalShip.isPresent() || relationalShip1.isPresent()) {
+            relational = relationalShip.orElseGet(relationalShip1::get);
+        }
+        if (relational == null){
+            return new ResponseEntity<>(NOT_FRIEND, HttpStatus.OK);
+        } else if (relational.getStatusRelationalShip().equals(FRIENDS)){
+            return new ResponseEntity<>(FRIENDS, HttpStatus.OK);
+        } else if (relational.getStatusRelationalShip().equals(BLOCKED)){
+            return new ResponseEntity<>(PENDING, HttpStatus.OK);
+        } else return new ResponseEntity<>(BLOCKED, HttpStatus.OK);
+    }
+
 }

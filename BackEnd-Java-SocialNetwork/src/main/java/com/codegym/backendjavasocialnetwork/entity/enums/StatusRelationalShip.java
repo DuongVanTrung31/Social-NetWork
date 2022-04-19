@@ -7,7 +7,8 @@ import lombok.Getter;
 public enum StatusRelationalShip {
     FRIENDS("Bạn bè"),
     BLOCKED("Block"),
-    PENDING("Đã gửi lời mời");
+    PENDING("Đã gửi lời mời"),
+    NOT_FRIEND("Không phải bạn");
     private final String name;
 
     StatusRelationalShip(String name) {
