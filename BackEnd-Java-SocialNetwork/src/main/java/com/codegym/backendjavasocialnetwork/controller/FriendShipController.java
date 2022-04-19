@@ -96,7 +96,7 @@ public class FriendShipController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("checkRelationship/{uid}/{id}")
+    @GetMapping("/checkRelationship/{uid}/{id}")
     public ResponseEntity<?> checkRelationship(@PathVariable("uid") Long uid, @PathVariable("id") Long id) {
         Optional<RelationalShip> relationalShip = friendShipService.findRelationshipByUser1AndUser2(uid, id);
         Optional<RelationalShip> relationalShip1 = friendShipService.findRelationshipByUser1AndUser2(id, uid);
@@ -113,7 +113,7 @@ public class FriendShipController {
         } else return new ResponseEntity<>(BLOCKED, HttpStatus.OK);
     }
 
-    @GetMapping("listStatus/{uid}/{id}")
+    @GetMapping("/listStatus/{uid}/{id}")
     public ResponseEntity<?> getListStatus(@PathVariable("uid") Long uid, @PathVariable("id") Long id) {
         Optional<RelationalShip> relationalShip = friendShipService.findRelationshipByUser1AndUser2(uid, id);
         Optional<RelationalShip> relationalShip1 = friendShipService.findRelationshipByUser1AndUser2(id, uid);
