@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,8 @@ public class Comment {
     @JsonIgnore
     @ManyToOne
     private Post post;
+
+    private LocalDateTime createdDate;
 
     @OneToMany(mappedBy = "comment",cascade = CascadeType.ALL)
     private List<LikeComment> likeCommentList;

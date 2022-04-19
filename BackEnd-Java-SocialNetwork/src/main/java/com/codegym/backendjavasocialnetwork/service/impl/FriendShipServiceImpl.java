@@ -22,6 +22,11 @@ public class FriendShipServiceImpl implements FriendShipService {
     }
 
     @Override
+    public Optional<RelationalShip> findAllByUser1_IdAndUser2_Id(Long user_1, Long target_user) {
+        return friendShipRepository.findAllByUser1_IdAndUser2_Id(user_1, target_user);
+    }
+
+    @Override
     public Iterable<RelationalShip> findAll() {
         return friendShipRepository.findAll();
     }

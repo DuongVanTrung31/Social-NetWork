@@ -51,12 +51,22 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Iterable<Post> findAllByUser_Id(Long userId) {
-        return postRepository.findAllByUser_Id(userId);
+        return postRepository.findAllByUser_IdOrderByIdDesc(userId);
     }
 
     @Override
     public Iterable<Post> findAllByStatusOrderByIdDesc(Enum<Status> status) {
         return postRepository.findAllByStatusOrderByIdDesc(status);
+    }
+
+    @Override
+    public Iterable<Post> findAllByStatusAndUser_IdOrderByIdDesc(String status, Long userId) {
+        return postRepository.findAllByStatusAndUser_IdOrderByIdDesc(status, userId);
+    }
+
+    @Override
+    public List<Post> getList(Long id) {
+        return postRepository.getList(id);
     }
 
 

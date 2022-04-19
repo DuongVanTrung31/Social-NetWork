@@ -76,19 +76,38 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userInfoForm.getEmail());
         user.setDateOfBirth(userInfoForm.getDateOfBirth());
         user.setAddress(userInfoForm.getAddress());
-        user.setAvatarUrl(userInfoForm.getAvatarUrl());
         user.setHobbies(userInfoForm.getHobbies());
         user.setPhone(userInfoForm.getPhone());
     }
 
     @Override
     public UserInfoForm getUserInfo(User user) {
-        return new UserInfoForm(user.getFullName(),user.getAddress(),user.getHobbies()
+        return new UserInfoForm(user.getId(),user.getFullName(),user.getAddress(),user.getHobbies()
                 ,user.getAvatarUrl(), user.getCoverImgUrl(), user.getEmail(),user.getPhone(),user.getDateOfBirth());
     }
 
     @Override
     public Iterable<User> findAllByUserNameContaining(String fullName) {
         return repository.findAllByUsernameContaining(fullName);
+    }
+
+    @Override
+    public Iterable<User> getMutualFriendsList(Long uid, Long id) {
+        return repository.getMutualFriendsList(uid, id);
+    }
+
+    @Override
+    public Iterable<User> getListRequestToMe(Long uid) {
+        return repository.getListRequestToMe(uid);
+    }
+
+    @Override
+    public Iterable<User> getListRequestFromMe(Long uid) {
+        return repository.getListRequestFromMe(uid);
+    }
+
+    @Override
+    public Iterable<User> getListMyFriends(Long uid) {
+        return repository.getListMyFriends(uid);
     }
 }

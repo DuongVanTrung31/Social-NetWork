@@ -1,26 +1,25 @@
 package com.codegym.backendjavasocialnetwork.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class LikeComment {
+@AllArgsConstructor
+public class ChatMessage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private Long idReceiver;
+    @Lob
+    private String content;
+    private Date timeStamp;
     @ManyToOne
     private User user;
-
-    @JsonIgnore
-    @ManyToOne
-    private Comment comment;
 }
