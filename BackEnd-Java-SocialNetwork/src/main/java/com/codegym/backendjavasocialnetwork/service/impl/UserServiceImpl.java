@@ -105,4 +105,9 @@ public class UserServiceImpl implements UserService {
     public Iterable<User> getListMyFriends(Long uid) {
         return repository.getListMyFriends(uid);
     }
+
+    @Override
+    public Iterable<User> findAllByFullNameContaining(String fullName) {
+        return repository.findAllByFullNameContaining(fullName);
+    }
 }

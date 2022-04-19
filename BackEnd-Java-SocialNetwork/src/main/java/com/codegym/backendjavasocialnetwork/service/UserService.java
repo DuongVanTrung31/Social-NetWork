@@ -16,4 +16,5 @@ public interface UserService extends GenericService<User>, UserDetailsService {
     Iterable<User> getListRequestToMe(Long uid);
     Iterable<User> getListRequestFromMe(Long uid);
     Iterable<User> getListMyFriends(Long uid);
+    Iterable<User> findAllByFullNameContaining(String fullName);
 }

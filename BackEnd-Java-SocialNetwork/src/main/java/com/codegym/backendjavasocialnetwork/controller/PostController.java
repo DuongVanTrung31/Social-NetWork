@@ -3,6 +3,7 @@ package com.codegym.backendjavasocialnetwork.controller;
 import com.codegym.backendjavasocialnetwork.entity.Post;
 import com.codegym.backendjavasocialnetwork.entity.RelationalShip;
 import com.codegym.backendjavasocialnetwork.entity.User;
+import com.codegym.backendjavasocialnetwork.entity.dto.ResponseSearch;
 import com.codegym.backendjavasocialnetwork.entity.enums.Status;
 import com.codegym.backendjavasocialnetwork.service.FriendShipService;
 import com.codegym.backendjavasocialnetwork.service.PostService;
@@ -29,6 +30,7 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
     @Autowired
     private UserService userService;
 
@@ -93,7 +95,7 @@ public class PostController {
     }
 
     @GetMapping("/newFeeds/{uid}")
-    public ResponseEntity<?> getNewFeed(@PathVariable("uid") Long uid){
+    public ResponseEntity<?> getNewFeed(@PathVariable("uid") Long uid) {
 //        List<Post> privatePosts = (List<Post>) postService.findAllByStatusAndUser_IdOrderByIdDesc("PRIVATE", uid);
 //        List<Post> postList = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.PUBLIC);
 //        if (privatePosts != null){
@@ -137,9 +139,17 @@ public class PostController {
             return new ResponseEntity<>(postPublics, HttpStatus.OK);
         } else if (relational.getStatusRelationalShip().equals(FRIENDS)) {
             return new ResponseEntity<>(postList, HttpStatus.OK);
-        } else if (relational.getStatusRelationalShip().equals(PENDING)){
+        } else if (relational.getStatusRelationalShip().equals(PENDING)) {
             return new ResponseEntity<>(postPublics, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/uid/search")
+    public ResponseEntity<?> searchUserAndPost(@RequestParam("test") String search, @RequestParam("uid") Long uid) {
+        List<User> users = (List<User>) userService.findAllByFullNameContaining(search);
+        List<Post> posts = (List<Post>) postService.findAllByContentContainingAndUser_Id(search, uid);
+        ResponseSearch responseSearch = new ResponseSearch(users, posts);
+        return new ResponseEntity<>(responseSearch, HttpStatus.OK);
     }
 }

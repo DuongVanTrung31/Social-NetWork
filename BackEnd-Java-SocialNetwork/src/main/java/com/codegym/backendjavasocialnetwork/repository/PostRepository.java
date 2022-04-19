@@ -31,5 +31,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "where bang1.target_user = :id and bang2.status = 'FRIENDS' and bang1.status_relational_ship = 'FRIENDS' order by id desc", nativeQuery = true)
     List<Post> getList(Long id);
 
-
+    Iterable<Post> findAllByContentContainingAndUser_Id(String content, Long id);
 }

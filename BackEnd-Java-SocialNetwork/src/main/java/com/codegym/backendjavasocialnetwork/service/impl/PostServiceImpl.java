@@ -69,5 +69,8 @@ public class PostServiceImpl implements PostService {
         return postRepository.getList(id);
     }
 
-
+    @Override
+    public Iterable<Post> findAllByContentContainingAndUser_Id(String content, Long id) {
+        return postRepository.findAllByContentContainingAndUser_Id(content, id);
+    }
 }
