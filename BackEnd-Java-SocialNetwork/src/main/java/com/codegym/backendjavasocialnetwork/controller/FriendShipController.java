@@ -1,8 +1,11 @@
 package com.codegym.backendjavasocialnetwork.controller;
 
+import com.codegym.backendjavasocialnetwork.entity.Post;
 import com.codegym.backendjavasocialnetwork.entity.RelationalShip;
 import com.codegym.backendjavasocialnetwork.entity.User;
+import com.codegym.backendjavasocialnetwork.entity.enums.Status;
 import com.codegym.backendjavasocialnetwork.service.FriendShipService;
+import com.codegym.backendjavasocialnetwork.service.PostService;
 import com.codegym.backendjavasocialnetwork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,9 @@ public class FriendShipController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PostService postService;
 
     @PostMapping("/{userId}/{targetUserId}")
     public ResponseEntity<?> addFriend(@PathVariable("userId") Long userId, @PathVariable("targetUserId") Long targetUserId) {
@@ -98,13 +104,34 @@ public class FriendShipController {
         if (relationalShip.isPresent() || relationalShip1.isPresent()) {
             relational = relationalShip.orElseGet(relationalShip1::get);
         }
-        if (relational == null){
+        if (relational == null) {
             return new ResponseEntity<>(NOT_FRIEND, HttpStatus.OK);
-        } else if (relational.getStatusRelationalShip().equals(FRIENDS)){
+        } else if (relational.getStatusRelationalShip().equals(FRIENDS)) {
             return new ResponseEntity<>(FRIENDS, HttpStatus.OK);
-        } else if (relational.getStatusRelationalShip().equals(BLOCKED)){
+        } else if (relational.getStatusRelationalShip().equals(PENDING)) {
             return new ResponseEntity<>(PENDING, HttpStatus.OK);
         } else return new ResponseEntity<>(BLOCKED, HttpStatus.OK);
     }
 
+    @GetMapping("listStatus/{uid}/{id}")
+    public ResponseEntity<?> getListStatus(@PathVariable("uid") Long uid, @PathVariable("id") Long id) {
+        Optional<RelationalShip> relationalShip = friendShipService.findRelationshipByUser1AndUser2(uid, id);
+        Optional<RelationalShip> relationalShip1 = friendShipService.findRelationshipByUser1AndUser2(id, uid);
+        RelationalShip relational = null;
+        List<Post> postPublics = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.PUBLIC);
+        List<Post> postList = (List<Post>) postService.findAllByStatusOrderByIdDesc(Status.FRIENDS);
+        ;
+        postList.addAll(postPublics);
+        if (relationalShip.isPresent() || relationalShip1.isPresent()) {
+            relational = relationalShip.orElseGet(relationalShip1::get);
+        }
+        if (relational == null) {
+            return new ResponseEntity<>(postPublics, HttpStatus.OK);
+        } else if (relational.getStatusRelationalShip().equals(FRIENDS)) {
+            return new ResponseEntity<>(postList, HttpStatus.OK);
+        } else if (relational.getStatusRelationalShip().equals(PENDING)){
+            return new ResponseEntity<>(postPublics, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
