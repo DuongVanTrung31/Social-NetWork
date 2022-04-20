@@ -145,8 +145,8 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/uid/search")
-    public ResponseEntity<?> searchUserAndPost(@RequestParam("test") String search, @RequestParam("uid") Long uid) {
+    @GetMapping("/search")
+    public ResponseEntity<?> searchUserAndPost(@RequestParam("search") String search, @RequestParam("uid") Long uid) {
         List<User> users = (List<User>) userService.findAllByFullNameContaining(search);
         List<Post> posts = (List<Post>) postService.findAllByContentContainingAndUser_Id(search, uid);
         ResponseSearch responseSearch = new ResponseSearch(users, posts);
