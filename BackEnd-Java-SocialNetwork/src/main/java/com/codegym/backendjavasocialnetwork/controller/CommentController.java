@@ -31,8 +31,16 @@ public class CommentController {
 
     @PostMapping("/{pid}")
     public ResponseEntity<Comment> saveComment(@PathVariable("pid") Long id, @RequestBody Comment comment) {
-        comment.setPost(postService.findById(id).get());
-        return new ResponseEntity<>(commentService.saveComment(comment), HttpStatus.CREATED);
+        Comment comment1 = new Comment();
+        if(comment.getId() != null) {
+            comment1 = commentService.findById(comment.getId()).get();
+            comment1.setContent(comment.getContent());
+        } else {
+            comment1.setContent(comment.getContent());
+            comment1.setUser(comment.getUser());
+            comment1.setPost(postService.findById(id).get());
+        }
+        return new ResponseEntity<>(commentService.saveComment(comment1), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
