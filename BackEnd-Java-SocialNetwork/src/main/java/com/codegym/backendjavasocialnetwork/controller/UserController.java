@@ -2,6 +2,7 @@ package com.codegym.backendjavasocialnetwork.controller;
 
 import com.codegym.backendjavasocialnetwork.entity.User;
 import com.codegym.backendjavasocialnetwork.entity.dto.ChangePasswordForm;
+import com.codegym.backendjavasocialnetwork.entity.dto.UpdateAvatar;
 import com.codegym.backendjavasocialnetwork.entity.dto.UserInfoForm;
 import com.codegym.backendjavasocialnetwork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,13 @@ public class UserController {
     public ResponseEntity<?> getListMyFriends(@PathVariable("uid") Long uid){
         Iterable<User> list = userService.getListMyFriends(uid);
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateImg/{uid}")
+    public ResponseEntity<?> updateImg (@PathVariable("uid") Long uid, @RequestBody UpdateAvatar updateAvatar) {
+        User user = userService.findById(uid).get();
+        user.setAvatarUrl(updateAvatar.getAvatarUrl());
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
