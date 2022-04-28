@@ -73,12 +73,12 @@ public class PostController {
     }
 
     @GetMapping("/searchPost")
-    public ResponseEntity<Iterable<Post>> getPostByContent(@RequestBody String search) {
-        Iterable<Post> posts = postService.findAllByContent(search);
+    public ResponseEntity<Iterable<Post>> getPostByContent(@RequestBody Post post) {
+        Iterable<Post> posts = postService.findAllByContentContaining(post.getContent());
         if (!posts.iterator().hasNext()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(posts,HttpStatus.OK);
     }
 
     @GetMapping("/status")

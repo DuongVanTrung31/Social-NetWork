@@ -11,10 +11,15 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findUserById(Long id);
+
     Boolean existsByEmail(String email);
+
     Optional<User> findByUsername(String username);
+
     Boolean existsByUsername(String username);
     Iterable<User> findAllByFullNameContaining(String fullName);
+
+    Iterable<User> findAllByUsernameContaining(String fullName);
 
     @Query(value = "select * from users where id in (SELECT DISTINCT F1.Person FROM ( SELECT F.user_1 Person FROM relational_ship F " +
             "WHERE F.target_user = :uid AND F.status_relational_ship = 'FRIENDS' UNION SELECT F.target_user Person FROM relational_ship F " +

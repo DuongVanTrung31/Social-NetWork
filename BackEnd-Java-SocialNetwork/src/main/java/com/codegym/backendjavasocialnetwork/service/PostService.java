@@ -7,7 +7,7 @@ import com.codegym.backendjavasocialnetwork.entity.enums.Status;
 import java.util.List;
 
 public interface PostService extends GenericService<Post> {
-    Iterable<Post> findAllByContent(String name);
+    Iterable<Post> findAllByContentContaining(String content);
 
     List<Post> getListPostByStatus();
 
